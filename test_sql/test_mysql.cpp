@@ -32,6 +32,19 @@ int main(void)
 
       con_ptr->setSchema(schema);
 
+      std::unique_ptr<sql::Statement> stmt(con_ptr->createStatement());
+      std::unique_ptr<sql::ResultSet>
+	res(stmt->executeQuery("SELECT 'Welcome to Connector/C++' AS _message"));
+      cout << "\t... running 'SELECT 'Welcome to Connector/C++' AS _message'"
+	   << endl;
+      while (res->next())
+	{
+	  cout << "\t... MySQL replies: " << res->getString("_message") << endl;
+	  cout << "\t... say it again, MySQL" << endl;
+	  cout << "\t....MySQL replies: " << res->getString(1) << endl;
+	}
+ 
+
   } catch (sql::SQLException &e) {
     /*
       The JDBC API throws three different exceptions:
