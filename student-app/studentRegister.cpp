@@ -6,3 +6,7 @@
  */
 #include "studentRegister.h"
 
+StudentRegisterWidget::StudentRegisterWidget(): Wt::WContainerWidget()
+{
+	addWidget(std::make_unique<Wt::WText>("Register student for a course"));
+}

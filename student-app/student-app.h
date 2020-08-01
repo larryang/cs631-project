@@ -8,12 +8,11 @@
 #ifndef STUDENT_APP_H_
 #define STUDENT_APP_H_
 
-
-#include <Wt/WApplication.h>
 #include <Wt/WContainerWidget.h>
 #include <Wt/WLineEdit.h>
 #include <Wt/WPushButton.h>
 #include <Wt/WText.h>
+#include <Wt/WBreak.h>
 #include "studentRegister.h"
 #include "classListGenerate.h"
 
@@ -46,11 +45,14 @@ private:
 	ClassListGenerateWidget *generateClassListWidget;
 	Wt::WPushButton *generateClassListButton;
 
+	Wt::WPushButton *doneButton;
+
 	// Slots
 	void login();
 	void logout();
 	void registerStudent();
 	void generateClassList();
+	void done();
 };
 
 #endif /* STUDENT_APP_H_ */

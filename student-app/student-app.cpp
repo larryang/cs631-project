@@ -28,20 +28,25 @@ StudentApplication::StudentApplication() : Wt::WContainerWidget()
 	}
 	{
 		registerWidget = addWidget(std::make_unique<StudentRegisterWidget>());
-		registerButton = addWidget(std::make_unique<Wt::WPushButton>("Register for Course"));
 		registerWidget->hide();
+		registerButton = addWidget(std::make_unique<Wt::WPushButton>("Register for Course"));
 		registerButton->hide();
 	}
 	{
 		generateClassListWidget = addWidget(std::make_unique<ClassListGenerateWidget>());
-		generateClassListButton = addWidget(std::make_unique<Wt::WPushButton>("Generate Class List"));
 		generateClassListWidget->hide();
+		generateClassListButton = addWidget(std::make_unique<Wt::WPushButton>("List Class Info"));
 		generateClassListButton->hide();
 	}
-
+	{
+		doneButton = addWidget(std::make_unique<Wt::WPushButton>("Done"));
+		doneButton->hide();
+	}
 
 	loginButton->clicked().connect(this, &StudentApplication::login);
 	logoutButton->clicked().connect(this, &StudentApplication::logout);
+	registerButton->clicked().connect(this, &StudentApplication::registerStudent);
+	generateClassListButton->clicked().connect(this, &StudentApplication::generateClassList);
 }
 
 
@@ -64,12 +69,12 @@ void StudentApplication::login()
 
 	  loginButton->hide();
 	  logoutButton->show();
+	  addWidget(std::make_unique<Wt::WBreak>());
+	  addWidget(std::make_unique<Wt::WBreak>());
 
-	  registerWidget->show();
 	  registerButton->show();
-
-	  generateClassListWidget->show();
 	  generateClassListButton->show();
+	  doneButton->hide();
 
 	  m_isLoggedIn = true;
   }
@@ -94,5 +99,30 @@ void StudentApplication::logout()
 
 	generateClassListWidget->hide();
 	generateClassListButton->hide();
+}
+
+void StudentApplication::done()
+{
+	registerWidget->hide();
+	generateClassListWidget->hide();
+
+	registerButton->show();
+	generateClassListButton->show();
+}
+
+void StudentApplication::registerStudent()
+{
+	registerButton->hide();
+	generateClassListButton->hide();
+	registerWidget->show();
+	doneButton->show();
+}
+
+void StudentApplication::generateClassList()
+{
+	registerButton->hide();
+	generateClassListButton->hide();
+	generateClassListWidget->show();
+	doneButton->show();
 }
 
