@@ -17,10 +17,10 @@
 
 using std::string;
 
-class StudentApplication : public Wt::WApplication
+class StudentApplication : public Wt::WContainerWidget
 {
 public:
-	StudentApplication(const Wt::WEnvironment& env);
+	StudentApplication();
 
 private:
 	// Variables

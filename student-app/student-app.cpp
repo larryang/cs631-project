@@ -7,24 +7,22 @@
 
 #include "student-app.h"
 
-StudentApplication::StudentApplication(const Wt::WEnvironment& env) : WApplication(env)
+StudentApplication::StudentApplication() : Wt::WContainerWidget()
 {
-	setTitle("Student Application");
-
-    greeting_ = root()->addWidget(std::make_unique<Wt::WText>());
-	root()->addWidget(std::make_unique<Wt::WBreak>());
+    greeting_ = addWidget(std::make_unique<Wt::WText>());
+	addWidget(std::make_unique<Wt::WBreak>());
 
 	// hide this when logged in
-	userIdText = root()->addWidget(std::make_unique<Wt::WText>("Student Id: "));
-	userIdEdit = root()->addWidget(std::make_unique<Wt::WLineEdit>());
-	root()->addWidget(std::make_unique<Wt::WBreak>());
-	passwordText = root()->addWidget(std::make_unique<Wt::WText>("Password: "));
-	passwordEdit = root()->addWidget(std::make_unique<Wt::WLineEdit>());
-	root()->addWidget(std::make_unique<Wt::WBreak>());
+	userIdText = addWidget(std::make_unique<Wt::WText>("Student Id: "));
+	userIdEdit = addWidget(std::make_unique<Wt::WLineEdit>());
+	addWidget(std::make_unique<Wt::WBreak>());
+	passwordText = addWidget(std::make_unique<Wt::WText>("Password: "));
+	passwordEdit = addWidget(std::make_unique<Wt::WLineEdit>());
+	addWidget(std::make_unique<Wt::WBreak>());
 
 	// which one to display depends on m_isLoggedIn
-	loginButton = root()->addWidget(std::make_unique<Wt::WPushButton>("Login"));
-	logoutButton = root()->addWidget(std::make_unique<Wt::WPushButton>("Logout"));
+	loginButton = addWidget(std::make_unique<Wt::WPushButton>("Login"));
+	logoutButton = addWidget(std::make_unique<Wt::WPushButton>("Logout"));
 	logoutButton->hide();
 
 	loginButton->clicked().connect(this, &StudentApplication::login);
@@ -35,19 +33,25 @@ StudentApplication::StudentApplication(const Wt::WEnvironment& env) : WApplicati
 void StudentApplication::login()
 {
   // TODO check password
-  m_userId = userIdEdit->text();
-  m_password = passwordEdit->text();
-  greeting_->setText("Hello, " + m_userId);
+  Wt::WString userId = userIdEdit->text();
+  Wt::WString password = passwordEdit->text();
 
-  userIdText->hide();
-  userIdEdit->hide();
-  passwordText->hide();
-  passwordEdit->hide();
+  if(userId == "abc123" && password == "password")
+  {
+	  m_userId = userId;
+	  m_password = password;
+	  greeting_->setText("Hello, " + m_userId);
 
-  loginButton->hide();
-  logoutButton->show();
+	  userIdText->hide();
+	  userIdEdit->hide();
+	  passwordText->hide();
+	  passwordEdit->hide();
 
-  m_isLoggedIn = true;
+	  loginButton->hide();
+	  logoutButton->show();
+
+	  m_isLoggedIn = true;
+  }
 }
 
 void StudentApplication::logout()
