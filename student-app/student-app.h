@@ -14,6 +14,8 @@
 #include <Wt/WLineEdit.h>
 #include <Wt/WPushButton.h>
 #include <Wt/WText.h>
+#include "studentRegister.h"
+#include "classListGenerate.h"
 
 using std::string;
 
@@ -38,11 +40,17 @@ private:
 	Wt::WPushButton *loginButton;
 	Wt::WPushButton *logoutButton;
 
+	StudentRegisterWidget *registerWidget;
+	Wt::WPushButton *registerButton;
+
+	ClassListGenerateWidget *generateClassListWidget;
+	Wt::WPushButton *generateClassListButton;
+
 	// Slots
 	void login();
 	void logout();
 	void registerStudent();
-	void listSection();
+	void generateClassList();
 };
 
 #endif /* STUDENT_APP_H_ */

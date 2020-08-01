@@ -12,18 +12,33 @@ StudentApplication::StudentApplication() : Wt::WContainerWidget()
     greeting_ = addWidget(std::make_unique<Wt::WText>());
 	addWidget(std::make_unique<Wt::WBreak>());
 
-	// hide this when logged in
-	userIdText = addWidget(std::make_unique<Wt::WText>("Student Id: "));
-	userIdEdit = addWidget(std::make_unique<Wt::WLineEdit>());
-	addWidget(std::make_unique<Wt::WBreak>());
-	passwordText = addWidget(std::make_unique<Wt::WText>("Password: "));
-	passwordEdit = addWidget(std::make_unique<Wt::WLineEdit>());
-	addWidget(std::make_unique<Wt::WBreak>());
+	{
+		// hide this when logged in
+		userIdText = addWidget(std::make_unique<Wt::WText>("Student Id: "));
+		userIdEdit = addWidget(std::make_unique<Wt::WLineEdit>());
+		addWidget(std::make_unique<Wt::WBreak>());
+		passwordText = addWidget(std::make_unique<Wt::WText>("Password: "));
+		passwordEdit = addWidget(std::make_unique<Wt::WLineEdit>());
+		addWidget(std::make_unique<Wt::WBreak>());
 
-	// which one to display depends on m_isLoggedIn
-	loginButton = addWidget(std::make_unique<Wt::WPushButton>("Login"));
-	logoutButton = addWidget(std::make_unique<Wt::WPushButton>("Logout"));
-	logoutButton->hide();
+		// which one to display depends on m_isLoggedIn
+		loginButton = addWidget(std::make_unique<Wt::WPushButton>("Login"));
+		logoutButton = addWidget(std::make_unique<Wt::WPushButton>("Logout"));
+		logoutButton->hide();
+	}
+	{
+		registerWidget = addWidget(std::make_unique<StudentRegisterWidget>());
+		registerButton = addWidget(std::make_unique<Wt::WPushButton>("Register for Course"));
+		registerWidget->hide();
+		registerButton->hide();
+	}
+	{
+		generateClassListWidget = addWidget(std::make_unique<ClassListGenerateWidget>());
+		generateClassListButton = addWidget(std::make_unique<Wt::WPushButton>("Generate Class List"));
+		generateClassListWidget->hide();
+		generateClassListButton->hide();
+	}
+
 
 	loginButton->clicked().connect(this, &StudentApplication::login);
 	logoutButton->clicked().connect(this, &StudentApplication::logout);
@@ -50,6 +65,12 @@ void StudentApplication::login()
 	  loginButton->hide();
 	  logoutButton->show();
 
+	  registerWidget->show();
+	  registerButton->show();
+
+	  generateClassListWidget->show();
+	  generateClassListButton->show();
+
 	  m_isLoggedIn = true;
   }
 }
@@ -67,5 +88,11 @@ void StudentApplication::logout()
 
 	loginButton->show();
 	logoutButton->hide();
+
+	registerWidget->hide();
+	registerButton->hide();
+
+	generateClassListWidget->hide();
+	generateClassListButton->hide();
 }
 
