@@ -1,4 +1,6 @@
+#include <stdlib.h>
 #include <memory>
+#include <iostream>
 #include <mysql/jdbc.h> 
 
 using std::cout;
