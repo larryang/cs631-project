@@ -1,4 +1,4 @@
-#CREATE SCHEMA njit_student_registration;
+CREATE SCHEMA njit_student_registration;
 
 CREATE TABLE STAFF
 (T_SSN CHAR(11) NOT NULL,
@@ -46,7 +46,8 @@ CONSTRAINT FK_Room FOREIGN KEY (Dept_Location_Building, Dept_Location_Room) REFE
 CREATE TABLE STUDENT
 (S_ID VARCHAR(6) NOT NULL,
 S_SSN CHAR(11),
-S_Name CHAR(40),
+S_FName CHAR(20),
+S_LName CHAR(20),
 S_Add VARCHAR(50),
 S_High VARCHAR(40),
 S_Year INT,
