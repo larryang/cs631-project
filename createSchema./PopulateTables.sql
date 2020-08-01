@@ -34,12 +34,14 @@ INSERT INTO DEPARTMENT VALUES
 ('DPMATH', 'Mathematics', 573947.34, '634-64-9220', 'BDLSHL', '274');
 
 INSERT INTO STUDENT VALUES
-('cb375', '837-24-9284', 'Chris Bazzini', '7 Main St. Oakland, NJ 07436', 'Don Bosco Prep', 3, 'DPCOMP'),
-('lq25', '253-52-2455', 'Lauren Quense', '23 Franklin Ave. Ramsey, NJ 07446', 'Ramsey High School', 4, 'DPFINC'),
-('db22', '354-36-4543', 'Daniela Barns', '14 Pine St. Wyckoff, NJ 07481', 'IHA', 2, 'DPSTAT'),
-('js525', '254-54-2456', 'Josh Smith', '15 Apple Rd. Newark, NJ 07103', 'St. Benedicts', 4, 'DPMATH'),
-('mp62', '234-64-2087', 'Mike Palta', '47 Saddle St. Ramsey, NJ 07446', 'Don Bosco Prep', 3, 'DPBIOL'),
-('cr245', '345-64-2646', 'Charles Rondo', '23 East River Rd. Clifton, NJ 07014', 'Clifton High School', 2, 'DPMATH');
+('cb375', '837-24-9284', 'Chris','Bazzini', '7 Main St. Oakland, NJ 07436', 'Don Bosco Prep', 3, 'DPCOMP'),
+('lq25', '253-52-2455', 'Lauren','Quense', '23 Franklin Ave. Ramsey, NJ 07446', 'Ramsey High School', 4, 'DPFINC'),
+('db22', '354-36-4543', 'Daniela','Barns', '14 Pine St. Wyckoff, NJ 07481', 'IHA', 2, 'DPSTAT'),
+('js525', '254-54-2456', 'Josh','Smith', '15 Apple Rd. Newark, NJ 07103', 'St. Benedicts', 4, 'DPMATH'),
+('mp62', '234-64-2087', 'Mike','Palta', '47 Saddle St. Ramsey, NJ 07446', 'Don Bosco Prep', 3, 'DPBIOL'),
+('cr245', '345-64-2646', 'Charles','Rondo', '23 East River Rd. Clifton, NJ 07014', 'Clifton High School', 2, 'DPMATH'),
+('kl24', '235-63-2355', 'Kyle','Langly', '55 North Ridge Rd. Oakland, NJ 07436', 'Indian Hills High School', 1, NULL),
+('mj23', '253-53-3525', 'Michael','Jordan', '23 Champions Rd. Cornelius, NC 28031', 'Emsley A. Laney High School', 3, 'DPFINC');
 
 INSERT INTO COURSE VALUES
 ('CS100', 'Intro to Computer Science', 4.0, 6, 'DPCOMP'),
