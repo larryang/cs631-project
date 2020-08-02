@@ -74,6 +74,10 @@ void ClassListGenerateWidget::generateClassList()
 {
 	std::string output_string;
 
+	std::unique_ptr<sql::Statement> stmt(con_ptr->createStatement());
+	//std::unique_ptr<sql::ResultSet> res("SELECT S_ID FROM REGISTRATION WHERE S_ID = '" + student_id + "' AND Course_ID = '" + course_id + "'");
+	std::unique_ptr<sql::ResultSet> res("SELECT S_ID FROM REGISTRATION WHERE S_ID = '" + student_id + "' AND Course_ID = '" + course_id + "'");
+
 	// run the SQL query and stuff it into string
 	output_string = "Class List Query not implemented yet";
 
