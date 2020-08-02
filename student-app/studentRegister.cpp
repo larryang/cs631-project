@@ -43,9 +43,8 @@ void StudentRegisterWidget::registerCourse()
 	// declare query output
 	std::string output_text;
 
-	// do SQL query - put output into this output_text string
+	// do MySQL query - put output into this output_text string
 	output_text = "Query not implemented yet";
-
 
 	queryResponse->setText(output_text);
 }

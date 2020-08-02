@@ -18,6 +18,12 @@ class ClassListGenerateWidget : public Wt::WContainerWidget
 public:
 	ClassListGenerateWidget();
 
+private:
+	Wt::WPushButton *generateClassListButton;
+	Wt::WText *queryResponse;
+
+	// SLOTS
+	void generateClassList(); // probably could just do all of this in the constructor
 };
 
 
