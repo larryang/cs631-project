@@ -25,6 +25,8 @@ StudentApplication::StudentApplication() : Wt::WContainerWidget()
 		loginButton = addWidget(std::make_unique<Wt::WPushButton>("Login"));
 		logoutButton = addWidget(std::make_unique<Wt::WPushButton>("Logout"));
 		logoutButton->hide();
+		addWidget(std::make_unique<Wt::WBreak>());
+		addWidget(std::make_unique<Wt::WBreak>());
 	}
 	{
 		registerWidget = addWidget(std::make_unique<StudentRegisterWidget>());
@@ -47,6 +49,7 @@ StudentApplication::StudentApplication() : Wt::WContainerWidget()
 	logoutButton->clicked().connect(this, &StudentApplication::logout);
 	registerButton->clicked().connect(this, &StudentApplication::registerStudent);
 	generateClassListButton->clicked().connect(this, &StudentApplication::generateClassList);
+	doneButton->clicked().connect(this, &StudentApplication::done);
 }
 
 
@@ -108,6 +111,7 @@ void StudentApplication::done()
 
 	registerButton->show();
 	generateClassListButton->show();
+	doneButton->hide();
 }
 
 void StudentApplication::registerStudent()
@@ -115,6 +119,7 @@ void StudentApplication::registerStudent()
 	registerButton->hide();
 	generateClassListButton->hide();
 	registerWidget->show();
+
 	doneButton->show();
 }
 
@@ -123,6 +128,7 @@ void StudentApplication::generateClassList()
 	registerButton->hide();
 	generateClassListButton->hide();
 	generateClassListWidget->show();
+
 	doneButton->show();
 }
 
