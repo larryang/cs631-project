@@ -13,6 +13,7 @@
 #include <Wt/WLineEdit.h>
 #include <Wt/WPushButton.h>
 #include <Wt/WText.h>
+#include <Wt/WTable.h>
 #include "student-app.h"
 #include "connectMySql.h"
 
@@ -32,6 +33,7 @@ private:
 
 	Wt::WPushButton *generateClassListButton;
 	Wt::WText *queryResponse;
+	Wt::WTable *table;
 
 	// SLOTS
 	void generateClassList(); // probably could just do all of this in the constructor

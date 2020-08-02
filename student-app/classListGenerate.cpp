@@ -43,6 +43,9 @@ ClassListGenerateWidget::ClassListGenerateWidget(StudentApplication *parent) : W
 	addWidget(std::make_unique<Wt::WBreak>());
 
 	queryResponse = addWidget(std::make_unique<Wt::WText>());
+	addWidget(std::make_unique<Wt::WBreak>());
+
+	table = addWidget(std::make_unique<Wt::WTable>());
 
 	generateClassListButton->clicked().connect(this, &ClassListGenerateWidget::generateClassList);
 }
@@ -76,7 +79,14 @@ void ClassListGenerateWidget::generateClassList()
 
 	std::unique_ptr<sql::Statement> stmt(con_ptr->createStatement());
 	//std::unique_ptr<sql::ResultSet> res("SELECT S_ID FROM REGISTRATION WHERE S_ID = '" + student_id + "' AND Course_ID = '" + course_id + "'");
-	std::unique_ptr<sql::ResultSet> res("SELECT S_ID FROM REGISTRATION WHERE S_ID = '" + student_id + "' AND Course_ID = '" + course_id + "'");
+	std::string query_string =
+			"SELECT 	S.Course_ID, S.Sec_No, C.Course_Name, R.Meet_days, R.Meet_time, R.Building_ID, R.Room_no, STAFF.T_Name\
+		     FROM    SECTION S, COURSE C, SECTION_IN_ROOM R, STAFF\
+			 WHERE   S.Course_ID = C.Course_ID\
+			 AND S.Course_ID = R.Course_ID\
+			 AND S.Sec_No = R.Sec_No\
+			 AND S.T_SSN = STAFF.T_SSN;";
+	std::unique_ptr<sql::ResultSet>	res(stmt->executeQuery(query_string));
 
 	// run the SQL query and stuff it into string
 	output_string = "Class List Query not implemented yet";

@@ -11,4 +11,5 @@ SELECT	s.S_LName, s.S_FName, s.S_ID, s.Major, S_Year
 FROM 	STUDENT s, REGISTRATION r
 WHERE	s.S_ID = r.S_ID
 	AND r.COURSE_ID = "CS100"
-	AND r.Sec_No = "1001";
+	AND r.Sec_No = "1001"
+ORDER BY s.S_LName;
