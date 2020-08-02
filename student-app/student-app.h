@@ -18,10 +18,14 @@
 
 using std::string;
 
+class StudentRegisterWidget;
+class ClassListGenerateWidget;
+
 class StudentApplication : public Wt::WContainerWidget
 {
 public:
 	StudentApplication();
+	std::string studentId();
 
 private:
 	// Variables

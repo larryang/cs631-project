@@ -8,8 +8,10 @@
 #include "Wt/WBreak.h"
 //#include "connectMySql.h"
 
-StudentRegisterWidget::StudentRegisterWidget(): Wt::WContainerWidget()
+StudentRegisterWidget::StudentRegisterWidget(StudentApplication* parent) : Wt::WContainerWidget()
 {
+	m_parent = parent;
+
 	addWidget(std::make_unique<Wt::WText>("Register student for a course"));
 
 	addWidget(std::make_unique<Wt::WBreak>());
@@ -36,6 +38,7 @@ StudentRegisterWidget::StudentRegisterWidget(): Wt::WContainerWidget()
 void StudentRegisterWidget::registerCourse()
 {
 	// get query input
+	std::string studentId = m_parent->studentId();
 	std::string courseCode = courseCodeEdit->text().toUTF8();
 	std::string time = timeEdit->text().toUTF8();
 	std::string sectionNumber = sectionNumberEdit->text().toUTF8();
@@ -44,7 +47,8 @@ void StudentRegisterWidget::registerCourse()
 	std::string output_text;
 
 	// do MySQL query - put output into this output_text string
-	output_text = "Query not implemented yet";
+	output_text = "Query not implemented yet. StudentID: " + m_parent->studentId()
+			+ " CourseCode: " + courseCode + " Time: " + time + " SectionNumber: " + sectionNumber;
 
 	queryResponse->setText(output_text);
 }

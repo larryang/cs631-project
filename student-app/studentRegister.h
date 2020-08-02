@@ -8,18 +8,22 @@
 #ifndef STUDENTREGISTER_H_
 #define STUDENTREGISTER_H_
 
+#include <memory>
 #include <Wt/WContainerWidget.h>
 #include <Wt/WLineEdit.h>
 #include <Wt/WPushButton.h>
 #include <Wt/WText.h>
+#include "student-app.h"
+
+class StudentApplication;
 
 class StudentRegisterWidget : public Wt::WContainerWidget
 {
 public:
-	StudentRegisterWidget();
+	StudentRegisterWidget(StudentApplication *parent);
 
 private:
-
+	StudentApplication* m_parent;
 	// inputs to query
 	Wt::WText *courseCodeText;
 	Wt::WLineEdit *courseCodeEdit;

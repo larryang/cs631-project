@@ -6,6 +6,7 @@
  */
 
 #include "student-app.h"
+#include <memory>
 
 StudentApplication::StudentApplication() : Wt::WContainerWidget()
 {
@@ -29,13 +30,13 @@ StudentApplication::StudentApplication() : Wt::WContainerWidget()
 		addWidget(std::make_unique<Wt::WBreak>());
 	}
 	{
-		registerWidget = addWidget(std::make_unique<StudentRegisterWidget>());
+		registerWidget = addWidget(std::make_unique<StudentRegisterWidget>(this));
 		registerWidget->hide();
 		registerButton = addWidget(std::make_unique<Wt::WPushButton>("Register for Course"));
 		registerButton->hide();
 	}
 	{
-		generateClassListWidget = addWidget(std::make_unique<ClassListGenerateWidget>());
+		generateClassListWidget = addWidget(std::make_unique<ClassListGenerateWidget>(this));
 		generateClassListWidget->hide();
 		generateClassListButton = addWidget(std::make_unique<Wt::WPushButton>("List Class Info"));
 		generateClassListButton->hide();
@@ -52,6 +53,10 @@ StudentApplication::StudentApplication() : Wt::WContainerWidget()
 	doneButton->clicked().connect(this, &StudentApplication::done);
 }
 
+std::string StudentApplication::studentId()
+{
+	return m_userId.toUTF8();
+}
 
 void StudentApplication::login()
 {

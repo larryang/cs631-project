@@ -8,8 +8,10 @@
 #include "classListGenerate.h"
 #include <Wt/WBreak.h>
 
-ClassListGenerateWidget::ClassListGenerateWidget() : Wt::WContainerWidget()
+ClassListGenerateWidget::ClassListGenerateWidget(StudentApplication *parent) : Wt::WContainerWidget()
 {
+	m_parent = parent;
+
 	addWidget(std::make_unique<Wt::WText>("Generate a class list for each section."));
 
 	addWidget(std::make_unique<Wt::WBreak>());
