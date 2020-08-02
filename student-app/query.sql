@@ -7,7 +7,7 @@ WHERE   S.Course_ID = C.Course_ID
 	AND S.T_SSN = STAFF.T_SSN;
 
 # query model for looping over list of sections
-SELECT	s.S_LName, s.S_FName, s.S_ID, s.Major, S_Year  
+SELECT	s.S_LName, s.S_FName, s.S_ID, s.Major, s.S_Year  
 FROM 	STUDENT s, REGISTRATION r
 WHERE	s.S_ID = r.S_ID
 	AND r.COURSE_ID = "CS100"

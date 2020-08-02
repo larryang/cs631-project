@@ -19,6 +19,7 @@ std::unique_ptr<Wt::WApplication> createApplication(const Wt::WEnvironment& env)
   auto app = std::make_unique<Wt::WApplication>(env);
 
   app->setTitle("Student Application");
+  app->useStyleSheet("student-app.css");
   app->root()->addWidget(std::make_unique<StudentApplication>());
 
   return app;

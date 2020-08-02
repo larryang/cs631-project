@@ -67,7 +67,6 @@ std::string StudentRegisterWidget::handle_SQLException(sql::SQLException &e) {
 	 *      - sql::SQLException (derived from std::runtime_error)
 	 */
 	ss << "# ERR: SQLException in " << __FILE__;
-	ss << "(" << "main()" << ") on line " << __LINE__ << endl;
 	/* Use what() (derived from std::runtime_error) to fetch the error message */
 	ss << "# ERR: " << e.what();
 	ss << " (MySQL error code: " << e.getErrorCode();

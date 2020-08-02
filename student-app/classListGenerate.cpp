@@ -34,6 +34,8 @@ ClassListGenerateWidget::ClassListGenerateWidget(StudentApplication *parent) : W
 		handle_SQLException(e);
 	}
 
+	setContentAlignment(Wt::AlignmentFlag::Left);
+
 	addWidget(std::make_unique<Wt::WText>("Generate a class list for each section."));
 
 	addWidget(std::make_unique<Wt::WBreak>());
@@ -60,7 +62,6 @@ std::string ClassListGenerateWidget::handle_SQLException(sql::SQLException &e) {
 	 *      - sql::SQLException (derived from std::runtime_error)
 	 */
 	ss << "# ERR: SQLException in " << __FILE__;
-	ss << "(" << "main()" << ") on line " << __LINE__ << endl;
 	/* Use what() (derived from std::runtime_error) to fetch the error message */
 	ss << "# ERR: " << e.what();
 	ss << " (MySQL error code: " << e.getErrorCode();
@@ -75,21 +76,65 @@ std::string ClassListGenerateWidget::handle_SQLException(sql::SQLException &e) {
 
 void ClassListGenerateWidget::generateClassList()
 {
-	std::string output_string;
+	std::stringstream ss;
 
-	std::unique_ptr<sql::Statement> stmt(con_ptr->createStatement());
-	//std::unique_ptr<sql::ResultSet> res("SELECT S_ID FROM REGISTRATION WHERE S_ID = '" + student_id + "' AND Course_ID = '" + course_id + "'");
-	std::string query_string =
-			"SELECT 	S.Course_ID, S.Sec_No, C.Course_Name, R.Meet_days, R.Meet_time, R.Building_ID, R.Room_no, STAFF.T_Name\
+	cout << "running ::ClassListGenerateWidget()" << endl;
+	try {
+		std::unique_ptr<sql::Statement> stmt(con_ptr->createStatement());
+		//std::unique_ptr<sql::ResultSet> res("SELECT S_ID FROM REGISTRATION WHERE S_ID = '" + student_id + "' AND Course_ID = '" + course_id + "'");
+		std::string query_string =
+				"SELECT 	S.Course_ID, S.Sec_No, C.Course_Name, R.Meet_days, R.Meet_time, R.Building_ID, R.Room_no, STAFF.T_Name\
 		     FROM    SECTION S, COURSE C, SECTION_IN_ROOM R, STAFF\
 			 WHERE   S.Course_ID = C.Course_ID\
 			 AND S.Course_ID = R.Course_ID\
 			 AND S.Sec_No = R.Sec_No\
 			 AND S.T_SSN = STAFF.T_SSN;";
-	std::unique_ptr<sql::ResultSet>	res(stmt->executeQuery(query_string));
+		std::unique_ptr<sql::ResultSet>	res(stmt->executeQuery(query_string));
+
+		int row = 0;
+		table->clear();
+		while(res->next())
+		{
+			std::string courseId = res->getString("Course_ID").asStdString();
+			std::string courseName = res->getString("Sec_No").asStdString();
+
+			table->elementAt(row, 0)->addWidget(std::make_unique<Wt::WText>(courseId));
+			table->elementAt(row, 1)->addWidget(std::make_unique<Wt::WText>(courseName));
+			table->elementAt(row, 2)->addWidget(std::make_unique<Wt::WText>(res->getString("Course_Name").c_str()));
+			table->elementAt(row, 3)->addWidget(std::make_unique<Wt::WText>(res->getString("Meet_days").c_str()));
+			table->elementAt(row, 4)->addWidget(std::make_unique<Wt::WText>(res->getString("Meet_time").c_str()));
+			table->elementAt(row, 5)->addWidget(std::make_unique<Wt::WText>(res->getString("Building_ID").c_str()));
+			table->elementAt(row, 6)->addWidget(std::make_unique<Wt::WText>(res->getString("Room_no").c_str()));
+			table->elementAt(row, 7)->addWidget(std::make_unique<Wt::WText>(res->getString("T_Name").c_str()));
+			++row;
+
+			std::unique_ptr<sql::Statement> student_stmt(con_ptr->createStatement());
+			std::string student_query_string =
+					"SELECT	s.S_LName, s.S_FName, s.S_ID, s.Major, s.S_Year\
+					FROM 	STUDENT s, REGISTRATION r\
+					WHERE	s.S_ID = r.S_ID\
+						AND r.COURSE_ID = '" + courseId + "'\
+						AND r.Sec_No = '" + courseName + "'\
+					ORDER BY s.S_LName;";
+
+			cout << student_query_string << endl;
+			std::unique_ptr<sql::ResultSet>	student_res(student_stmt->executeQuery(student_query_string));
+			while(student_res->next())
+			{
+				table->elementAt(row, 1)->addWidget(std::make_unique<Wt::WText>(student_res->getString("S_LName").c_str()));
+				table->elementAt(row, 2)->addWidget(std::make_unique<Wt::WText>(student_res->getString("S_FName").c_str()));
+				table->elementAt(row, 3)->addWidget(std::make_unique<Wt::WText>(student_res->getString("S_ID").c_str()));
+				table->elementAt(row, 4)->addWidget(std::make_unique<Wt::WText>(student_res->getString("Major").c_str()));
+				table->elementAt(row, 5)->addWidget(std::make_unique<Wt::WText>(std::to_string(student_res->getInt("S_Year")).c_str()));
+				++row;
+			}
+		}
+	} catch (sql::SQLException &e) {
+		ss << handle_SQLException(e);
+	}
 
 	// run the SQL query and stuff it into string
-	output_string = "Class List Query not implemented yet";
+	std::string output_string = ss.str();
 
 	queryResponse->setText(output_string);
 }
