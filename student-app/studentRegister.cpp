@@ -110,7 +110,7 @@ void StudentRegisterWidget::registerCourse()
 	const std::string sec_num = sectionNumberEdit->text().toUTF8();
 
 	// declare query output
-	std::string output_text;
+	std::stringstream ss;
 
 	cout << "running ::registerCourse()" << endl;
 	try
@@ -119,29 +119,29 @@ void StudentRegisterWidget::registerCourse()
 
 		if(course_limit <= num_courses)
 		{
-			output_text = "You have reached the limit of classes you can register for.";
+			ss << "You have reached the limit of classes you can register for." << endl;
 		} else {
 			//query to check if the student is already in the course they are trying to register for
 			std::unique_ptr<sql::Statement> stmt2(con_ptr->createStatement());
 			std::unique_ptr<sql::ResultSet>
 			res2 (stmt2->executeQuery("SELECT S_ID FROM REGISTRATION WHERE S_ID = '" + student_id + "' AND Course_ID = '" + course_id + "'"));
 			if(res2->next())
-				output_text = "You are already registered for this course. Please choose another.";
-
+				ss << "You are already registered for this course. Please choose another." << endl;
 			else{
-				cout << "Registering you for Course: " << course_id << ", Section: " << sec_num << endl;
+				ss << "Registering you for Course: " << course_id << ", Section: " << sec_num << endl;
 				std::unique_ptr<sql::Statement> stmt3(con_ptr->createStatement());
 				stmt3->executeUpdate("INSERT INTO REGISTRATION VALUES ('" + student_id + "', '" + course_id + "', '" + sec_num + "')");
 				num_courses = updateNumCourses();
 			}
 		}
 	} catch (sql::SQLException &e) {
-		output_text = handle_SQLException(e);
+		ss << handle_SQLException(e);
 	}
 
 
 	// do MySQL query - put output into this output_text string
 //	output_text = "Query not implemented yet. StudentID: " + m_parent->studentId()
 //			+ " CourseCode: " + course_id + " Time: " + time + " SectionNumber: " + sec_num;
+	Wt::WString output_text = Wt::WString::fromUTF8(ss.str());
 	queryResponse->setText(output_text);
 }
