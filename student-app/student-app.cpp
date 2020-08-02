@@ -64,7 +64,8 @@ void StudentApplication::login()
   Wt::WString userId = userIdEdit->text();
   Wt::WString password = passwordEdit->text();
 
-  if(userId == "abc123" && password == "password")
+  // TODO do real authentication
+  //if(userId == "abc123" && password == "password")
   {
 	  m_userId = userId;
 	  m_password = password;
@@ -80,6 +81,7 @@ void StudentApplication::login()
 	  addWidget(std::make_unique<Wt::WBreak>());
 	  addWidget(std::make_unique<Wt::WBreak>());
 
+	  registerWidget->updateNumCourses();
 	  registerButton->show();
 	  generateClassListButton->show();
 	  doneButton->hide();

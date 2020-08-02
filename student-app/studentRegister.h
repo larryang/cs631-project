@@ -22,6 +22,7 @@ class StudentRegisterWidget : public Wt::WContainerWidget
 {
 public:
 	StudentRegisterWidget(StudentApplication *parent);
+	int updateNumCourses();
 
 private:
 	StudentApplication* m_parent;
@@ -48,7 +49,6 @@ private:
 
 	// Slot
 	void registerCourse();
-	int updateNumCourses();
 	std::string handle_SQLException(sql::SQLException &e);
 };
 
