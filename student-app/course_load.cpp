@@ -80,6 +80,8 @@ int main(void)
 				
 				else{
 					cout << "Registering you for Course: " << course_id << ", Section: " << sec_num << endl;
+					std::unique_ptr<sql::Statement> stmt3(con_ptr->createStatement());
+                                        stmt3->executeUpdate("INSERT INTO REGISTRATION VALUES ('" + student_id + "', '" + course_id + "', '" + sec_num + "')");
 					num_courses += 1;
 				}
 
