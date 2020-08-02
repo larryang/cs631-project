@@ -14,6 +14,7 @@
 #include <Wt/WPushButton.h>
 #include <Wt/WText.h>
 #include "student-app.h"
+#include <mysql/jdbc.h>
 
 class StudentApplication;
 
@@ -24,6 +25,12 @@ public:
 
 private:
 	StudentApplication* m_parent;
+
+	sql::Driver *driver_ptr;
+	std::unique_ptr<sql::Connection> con_ptr;
+
+	const int course_limit = 5;
+
 	// inputs to query
 	Wt::WText *courseCodeText;
 	Wt::WLineEdit *courseCodeEdit;
@@ -32,6 +39,8 @@ private:
 	Wt::WText *sectionNumberText;
 	Wt::WLineEdit *sectionNumberEdit;
 
+	// Query outputs
+	Wt::WText *numCourses;
 	Wt::WText *queryResponse;
 
 	// Run Query
@@ -39,6 +48,8 @@ private:
 
 	// Slot
 	void registerCourse();
+	int updateNumCourses();
+	void handle_SQLException(sql::SQLException &e);
 };
 
 
