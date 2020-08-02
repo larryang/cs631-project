@@ -17,6 +17,24 @@ class StudentRegisterWidget : public Wt::WContainerWidget
 {
 public:
 	StudentRegisterWidget();
+
+private:
+
+	// inputs to query
+	Wt::WText *courseCodeText;
+	Wt::WLineEdit *courseCodeEdit;
+	Wt::WText *timeText;
+	Wt::WLineEdit *timeEdit;
+	Wt::WText *sectionNumberText;
+	Wt::WLineEdit *sectionNumberEdit;
+
+	Wt::WText *queryResponse;
+
+	// Run Query
+	Wt::WPushButton *registerCourseButton;
+
+	// Slot
+	void registerCourse();
 };
 
 
