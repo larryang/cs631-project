@@ -24,7 +24,7 @@ StudentRegisterWidget::StudentRegisterWidget(StudentApplication* parent) : Wt::W
 				<< endl << endl;
 
 		con_ptr = std::unique_ptr<sql::Connection>(driver_ptr->connect(url, user, pass));
-		cout << "Student Register Connection isValid: " << con_ptr->isValid() << endl;
+		cout << "::StudentRegisterWidget Connection isValid: " << con_ptr->isValid() << endl;
 
 		con_ptr->setSchema(schema);
 	}  catch (sql::SQLException &e) {
