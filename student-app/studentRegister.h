@@ -49,7 +49,7 @@ private:
 	// Slot
 	void registerCourse();
 	int updateNumCourses();
-	void handle_SQLException(sql::SQLException &e);
+	std::string handle_SQLException(sql::SQLException &e);
 };
 
 
