@@ -33,6 +33,10 @@ private:
 	Wt::WString m_userId;
 	Wt::WString m_password;
 
+	// SQL stuff
+	sql::Driver *driver_ptr;
+	std::unique_ptr<sql::Connection> con_ptr;
+
 	Wt::WText *greeting_;
 
 	Wt::WText *userIdText;
@@ -57,6 +61,10 @@ private:
 	void registerStudent();
 	void generateClassList();
 	void done();
+
+	// methods
+	std::string handle_SQLException(sql::SQLException &e);
+	bool checkStudentUserId(std::string userId);
 };
 
 #endif /* STUDENT_APP_H_ */
