@@ -113,6 +113,8 @@ void StudentApplication::logout()
 
 void StudentApplication::done()
 {
+	registerWidget->cleanUp();
+
 	registerWidget->hide();
 	generateClassListWidget->hide();
 

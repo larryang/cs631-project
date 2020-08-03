@@ -23,6 +23,7 @@ class StudentRegisterWidget : public Wt::WContainerWidget
 public:
 	StudentRegisterWidget(StudentApplication *parent);
 	int updateNumCourses();
+	void cleanUp();
 
 private:
 	StudentApplication* m_parent;

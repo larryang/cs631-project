@@ -77,6 +77,11 @@ std::string StudentRegisterWidget::handle_SQLException(sql::SQLException &e) {
 	return output_string;
 }
 
+void StudentRegisterWidget::cleanUp()
+{
+	queryResponse->setText("");
+}
+
 int StudentRegisterWidget::updateNumCourses()
 {
 	int num_courses = 0;
@@ -114,23 +119,57 @@ void StudentRegisterWidget::registerCourse()
 	cout << "running ::registerCourse()" << endl;
 	try
 	{
-		int num_courses = updateNumCourses();
+		const int num_courses = updateNumCourses();
+		bool error = false;
 
 		if(course_limit <= num_courses)
 		{
 			ss << "You have reached the limit of classes you can register for." << endl;
-		} else {
-			//query to check if the student is already in the course they are trying to register for
-			std::unique_ptr<sql::Statement> stmt2(con_ptr->createStatement());
+			error = true;
+		}
+
+		if(!error) {
+			//query to check if the course and section actually exists
+			std::unique_ptr<sql::Statement> stmt(con_ptr->createStatement());
 			std::unique_ptr<sql::ResultSet>
-			res2 (stmt2->executeQuery("SELECT S_ID FROM REGISTRATION WHERE S_ID = '" + student_id + "' AND Course_ID = '" + course_id + "'"));
-			if(res2->next())
-				ss << "You are already registered for this course. Please choose another." << endl;
-			else{
-				ss << "Registering you for Course: " << course_id << ", Section: " << sec_num << endl;
-				std::unique_ptr<sql::Statement> stmt3(con_ptr->createStatement());
-				stmt3->executeUpdate("INSERT INTO REGISTRATION VALUES ('" + student_id + "', '" + course_id + "', '" + sec_num + "')");
-				num_courses = updateNumCourses();
+			c_s_check (stmt-> executeQuery("SELECT Course_ID, Sec_No FROM SECTION WHERE Course_ID = '" + course_id + "' and Sec_No = '" + sec_num + "'"));
+			if (c_s_check -> next())
+			{
+				cout << "This course exists" << endl;
+
+				//query to check if the student is already in the course they are trying to register for
+				std::unique_ptr<sql::Statement> stmt2(con_ptr->createStatement());
+				std::unique_ptr<sql::ResultSet>
+				res2 (stmt2->executeQuery("SELECT S_ID FROM REGISTRATION WHERE S_ID = '" + student_id + "' AND Course_ID = '" + course_id + "'"));
+				if(res2->next())
+				{
+					ss << "You are already registered for this course. Please choose another." << endl;
+				} else{
+					//checks if class is full
+					cout << "Checking if class is full" << endl;
+					std::unique_ptr<sql::Statement> stmt3(con_ptr->createStatement());
+					std::unique_ptr<sql::ResultSet>
+					full (stmt3->executeQuery("SELECT r.course_id, r.sec_no, count(s_id) AS NumStud, Max_Enroll FROM REGISTRATION r, SECTION s WHERE r.course_Id = '" + course_id + "' AND r.sec_no = '" + sec_num + "' AND r.Course_ID = s.course_id AND r.sec_no = s.sec_no GROUP BY r.course_id, s.sec_no"));
+
+					int max_enroll = 0, enrolled_students = 0;
+					while(full -> next()){
+						enrolled_students = full-> getInt("NumStud");
+						max_enroll = full-> getInt("Max_Enroll");
+					}
+
+					int seats_left = max_enroll - enrolled_students;
+					if (seats_left > 0){
+						ss << "You can enroll for this course!";
+						ss << "There are " << seats_left << " seats left!" << endl;
+						ss << "Registering you for Course: " << course_id << ", Section: " << sec_num << endl;
+						std::unique_ptr<sql::Statement> stmt4(con_ptr->createStatement());
+						stmt4->executeUpdate("INSERT INTO REGISTRATION VALUES ('" + student_id + "', '" + course_id + "', '" + sec_num + "')");
+					}
+					else
+						ss << "Sorry, this class is full. Please select another course." << endl;
+				}
+			} else {
+				ss << "This course does not exist" << endl;
 			}
 		}
 	} catch (sql::SQLException &e) {
